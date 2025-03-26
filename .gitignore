@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/HealthMed/.vs/HealthMed
+/HealthMed/HealthMed.API/obj
+/HealthMed/HealthMed.Domain/obj
