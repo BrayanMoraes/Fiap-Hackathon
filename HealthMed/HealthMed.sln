@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMed.API", "HealthMed.API\HealthMed.API.csproj", "{B0E4E18B-9B0B-47A2-AED2-E347E3BFA7B9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMed.Domain", "HealthMed.Domain\HealthMed.Domain.csproj", "{40042F60-6215-4B67-AC2E-C4AD8EF39B20}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMed.Infra", "HealthMed.Infra\HealthMed.Infra.csproj", "{1B18746C-A610-4B0A-A912-FE166E1D52DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{40042F60-6215-4B67-AC2E-C4AD8EF39B20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40042F60-6215-4B67-AC2E-C4AD8EF39B20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40042F60-6215-4B67-AC2E-C4AD8EF39B20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B18746C-A610-4B0A-A912-FE166E1D52DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B18746C-A610-4B0A-A912-FE166E1D52DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B18746C-A610-4B0A-A912-FE166E1D52DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B18746C-A610-4B0A-A912-FE166E1D52DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

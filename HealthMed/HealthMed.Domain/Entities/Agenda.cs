@@ -3,7 +3,7 @@
     public class Agenda
     {
         public Guid IdAgenda { get; set; }
-        public string CRM { get; set; }
+        public Guid IdMedico { get; set; }
         public TimeSpan Horario { get; set; }
         public DateTime Data { get; set; }
         public decimal ValorConsulta { get; set; }
