@@ -1,6 +1,6 @@
 ﻿namespace HealthMed.Domain.Entities
 {
-    public class ConsultasAgendadas
+    public class ConsultaAgendada
     {
         public Guid Id { get; set; }
         public Guid IdPaciente { get; set; }

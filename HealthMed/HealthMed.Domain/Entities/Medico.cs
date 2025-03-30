@@ -8,7 +8,7 @@
         public Guid IdEspecialidade { get; set; }
         public string Senha { get; set; }
         public virtual ICollection<Agenda> Agendas { get; set; }
-        public virtual ICollection<ConsultasAgendadas> ConsultasAgendadas { get; set; }
+        public virtual ICollection<ConsultaAgendada> ConsultasAgendadas { get; set; }
         public virtual MedicoEspecialidade MedicoEspecialidade { get; set; }
     }
 }

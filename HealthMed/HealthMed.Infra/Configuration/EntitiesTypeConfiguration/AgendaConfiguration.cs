@@ -8,11 +8,12 @@ namespace HealthMed.Infra.Configuration.EntitiesTypeConfiguration
     {
         public void Configure(EntityTypeBuilder<Agenda> builder)
         {
-            builder.HasKey(x => x.IdAgenda);
-            builder.Property(x => x.IdMedico).IsRequired();
-            builder.Property(x => x.Horario).IsRequired();
-            builder.Property(x => x.Data).IsRequired();
-            builder.Property(x => x.ValorConsulta).IsRequired().HasColumnType("DECIMAL(18,2)");
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Id).HasColumnName("ID");
+            builder.Property(x => x.IdMedico).HasColumnName("ID_MEDICO").IsRequired();
+            builder.Property(x => x.Horario).HasColumnName("HORARIO").IsRequired();
+            builder.Property(x => x.Data).HasColumnName("DATA").IsRequired();
+            builder.Property(x => x.ValorConsulta).HasColumnName("VALOR_CONSULTA").IsRequired().HasColumnType("DECIMAL(18,2)");
             builder.HasOne(x => x.Medico).WithMany(x => x.Agendas).HasForeignKey(x => x.IdMedico);
         }
     }

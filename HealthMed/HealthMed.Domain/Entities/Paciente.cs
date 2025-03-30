@@ -6,6 +6,6 @@
         public string Senha { get; set; }
         public string Email { get; set; }
         public string CPF { get; set; }
-        public virtual ICollection<ConsultasAgendadas> ConsultasAgendadas { get; set; }
+        public virtual ICollection<ConsultaAgendada> ConsultasAgendadas { get; set; }
     }
 }

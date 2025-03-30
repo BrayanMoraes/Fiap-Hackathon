@@ -9,7 +9,7 @@ namespace HealthMed.Infra.Data
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<Agenda> Agendas { get; set; }
-        public DbSet<ConsultasAgendadas> ConsultasAgendadas { get; set; }
+        public DbSet<ConsultaAgendada> ConsultasAgendadas { get; set; }
         public DbSet<Medico> Medicos { get; set; }
         public DbSet<MedicoEspecialidade> MedicoEspecialidades { get; set; }
         public DbSet<Paciente> Pacientes { get; set; }
@@ -20,12 +20,16 @@ namespace HealthMed.Infra.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Agenda>();
-            modelBuilder.Entity<ConsultasAgendadas>();
+            modelBuilder.Entity<ConsultaAgendada>();
             modelBuilder.Entity<Medico>();
             modelBuilder.Entity<MedicoEspecialidade>();
             modelBuilder.Entity<Paciente>();
 
             modelBuilder.ApplyConfiguration(new AgendaConfiguration());
+            modelBuilder.ApplyConfiguration(new ConsultaAgendadaConfiguration());
+            modelBuilder.ApplyConfiguration(new MedicoConfiguration());
+            modelBuilder.ApplyConfiguration(new MedicoEspecialidadeConfiguration());
+            modelBuilder.ApplyConfiguration(new PacienteConfiguration());
 
         }
     }
