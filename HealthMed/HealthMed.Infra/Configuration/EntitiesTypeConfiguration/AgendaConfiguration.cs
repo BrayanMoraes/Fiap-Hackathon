@@ -8,6 +8,7 @@ namespace HealthMed.Infra.Configuration.EntitiesTypeConfiguration
     {
         public void Configure(EntityTypeBuilder<Agenda> builder)
         {
+            builder.ToTable("TB_AGENDA");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).HasColumnName("ID");
             builder.Property(x => x.IdMedico).HasColumnName("ID_MEDICO").IsRequired();

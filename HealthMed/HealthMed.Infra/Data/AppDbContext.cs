@@ -30,7 +30,6 @@ namespace HealthMed.Infra.Data
             modelBuilder.ApplyConfiguration(new MedicoConfiguration());
             modelBuilder.ApplyConfiguration(new MedicoEspecialidadeConfiguration());
             modelBuilder.ApplyConfiguration(new PacienteConfiguration());
-
         }
     }
 }

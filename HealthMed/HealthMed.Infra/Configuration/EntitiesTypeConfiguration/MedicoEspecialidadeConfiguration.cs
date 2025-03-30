@@ -8,10 +8,11 @@ namespace HealthMed.Infra.Configuration.EntitiesTypeConfiguration
     {
         public void Configure(EntityTypeBuilder<MedicoEspecialidade> builder)
         {
+            builder.ToTable("TB_MEDICO_ESPECIALIDADE");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).HasColumnName("ID").IsRequired();
             builder.Property(x => x.Descricao).HasColumnName("DESCRICAO").IsRequired();
-            builder.HasMany(x => x.Medicos).WithOne(x => x.MedicoEspecialidade);
+            builder.HasMany(x => x.Medicos).WithOne(x => x.MedicoEspecialidade).HasForeignKey(x => x.IdEspecialidade);
         }
     }
 }
