@@ -11,3 +11,5 @@
 /HealthMed/HealthMed.Domain/bin/Debug/net8.0
 /HealthMed/HealthMed.Infra/bin/Debug/net8.0
 /HealthMed/HealthMed.Business/obj
+/HealthMed/HealthMed.IoC/obj/Debug/net8.0
+/HealthMed/HealthMed.IoC/obj
