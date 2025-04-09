@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HealthMed.Infra.Repository
 {
-    internal class MedicoEspecialidadeRepository : IMedicoEspecialidadeRepository
+    public class MedicoEspecialidadeRepository : IMedicoEspecialidadeRepository
     {
         private readonly AppDbContext _context;
 

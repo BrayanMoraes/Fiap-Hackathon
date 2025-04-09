@@ -6,7 +6,7 @@ using System.Text.Json;
 
 namespace HealthMed.Business.Services
 {
-    internal class MedicoEspecialidadeService : IMedicoEspecialidadeService
+    public class MedicoEspecialidadeService : IMedicoEspecialidadeService
     {
         private readonly IMedicoEspecialidadeRepository _repository;
         private readonly IDatabase _redisCache;

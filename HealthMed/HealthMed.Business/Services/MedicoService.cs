@@ -72,7 +72,8 @@ namespace HealthMed.Business.Services
                 {
                 new Claim(ClaimTypes.NameIdentifier, medico.Id.ToString()),
                 new Claim(ClaimTypes.Name, medico.Nome),
-                new Claim("CRM", medico.CRM)
+                new Claim("CRM", medico.CRM),
+                new Claim(ClaimTypes.Role, "Medico")
             }),
                 Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
