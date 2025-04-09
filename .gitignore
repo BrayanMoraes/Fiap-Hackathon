@@ -13,3 +13,6 @@
 /HealthMed/HealthMed.Business/obj
 /HealthMed/HealthMed.IoC/obj/Debug/net8.0
 /HealthMed/HealthMed.IoC/obj
+/HealthMed/HealthMed.API/bin/Debug/net8.0
+/HealthMed/HealthMed.Business/bin/Debug/net8.0
+/HealthMed/HealthMed.IoC/bin/Debug/net8.0
