@@ -3,8 +3,11 @@ using HealthMed.Domain.Interfaces.Repository;
 using HealthMed.Domain.Interfaces.Services;
 using HealthMed.Domain.Shared;
 using HealthMed.Domain.Enum;
+using RabbitMQ.Client;
 using System;
 using System.Collections.Generic;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace HealthMed.Business.Services
@@ -12,10 +15,12 @@ namespace HealthMed.Business.Services
     public class AgendaService : IAgendaService
     {
         private readonly IAgendaRepository _repository;
+        private readonly IConnection _rabbitMqConnection;
 
-        public AgendaService(IAgendaRepository repository)
+        public AgendaService(IAgendaRepository repository, IConnection rabbitMqConnection)
         {
             _repository = repository;
+            _rabbitMqConnection = rabbitMqConnection;
         }
 
         public async Task<OperationResult<Agenda>> GetByIdAsync(Guid id)
@@ -48,7 +53,9 @@ namespace HealthMed.Business.Services
         {
             try
             {
-                await _repository.AddAsync(agenda);
+                var message = JsonSerializer.Serialize(agenda);
+                await PublishMessageAsync("agenda.add", message);
+
                 return new OperationResult<object>
                 {
                     Status = TypeReturnStatus.Success,
@@ -65,7 +72,9 @@ namespace HealthMed.Business.Services
         {
             try
             {
-                await _repository.UpdateAsync(agenda);
+                var message = JsonSerializer.Serialize(agenda);
+                await PublishMessageAsync("agenda.update", message);
+
                 return new OperationResult<object>
                 {
                     Status = TypeReturnStatus.Success,
@@ -93,6 +102,18 @@ namespace HealthMed.Business.Services
             {
                 return ServiceHelper.HandleException<IEnumerable<Agenda>>(ex, "Erro ao buscar agendas por médico.");
             }
+        }
+
+        private async Task PublishMessageAsync(string routingKey, string message)
+        {
+            using var channel = await _rabbitMqConnection.CreateChannelAsync();
+            await channel.ExchangeDeclareAsync(exchange: "agenda_exchange", type: ExchangeType.Direct);
+
+            var body = Encoding.UTF8.GetBytes(message);
+
+            await channel.BasicPublishAsync(exchange: "agenda_exchange",
+                                 routingKey: routingKey,
+                                 body: body);
         }
     }
 }

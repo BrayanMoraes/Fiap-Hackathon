@@ -3,16 +3,21 @@ using HealthMed.Domain.Enum;
 using HealthMed.Domain.Interfaces.Repository;
 using HealthMed.Domain.Interfaces.Services;
 using HealthMed.Domain.Shared;
+using RabbitMQ.Client;
+using System.Text;
+using System.Text.Json;
 
 namespace HealthMed.Business.Services
 {
     public class ConsultaAgendadaService : IConsultaAgendadaService
     {
         private readonly IConsultaAgendadaRepository _repository;
+        private readonly IConnection _rabbitMqConnection;
 
-        public ConsultaAgendadaService(IConsultaAgendadaRepository repository)
+        public ConsultaAgendadaService(IConsultaAgendadaRepository repository, IConnection rabbitMqConnection)
         {
             _repository = repository;
+            _rabbitMqConnection = rabbitMqConnection;
         }
 
         public async Task<OperationResult<ConsultaAgendada>> GetByIdAsync(Guid id)
@@ -45,7 +50,9 @@ namespace HealthMed.Business.Services
         {
             try
             {
-                await _repository.AddAsync(consultaAgendada);
+                var message = JsonSerializer.Serialize(consultaAgendada);
+                await PublishMessageAsync("consulta.add", message);
+
                 return new OperationResult<object>
                 {
                     Status = TypeReturnStatus.Success,
@@ -62,7 +69,9 @@ namespace HealthMed.Business.Services
         {
             try
             {
-                await _repository.UpdateAsync(consultaAgendada);
+                var message = JsonSerializer.Serialize(consultaAgendada);
+                await PublishMessageAsync("consulta.update", message);
+
                 return new OperationResult<object>
                 {
                     Status = TypeReturnStatus.Success,
@@ -137,6 +146,18 @@ namespace HealthMed.Business.Services
             {
                 return ServiceHelper.HandleException<object>(ex, "Erro ao cancelar consulta.");
             }
+        }
+
+        private async Task PublishMessageAsync(string routingKey, string message)
+        {
+            using var channel = await _rabbitMqConnection.CreateChannelAsync();
+            await channel.ExchangeDeclareAsync(exchange: "consulta_exchange", type: ExchangeType.Direct);
+
+            var body = Encoding.UTF8.GetBytes(message);
+
+            await channel.BasicPublishAsync(exchange: "consulta_exchange",
+                                 routingKey: routingKey,
+                                 body: body);
         }
     }
 }

@@ -5,6 +5,7 @@ using HealthMed.Infra.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using RabbitMQ.Client;
 using System.Text;
 
 namespace HealthMed.IoC
@@ -20,6 +21,12 @@ namespace HealthMed.IoC
             serviceCollection.AddScoped<IPacienteRepository, PacienteRepository>();
             serviceCollection.AddScoped<IMedicoRepository, MedicoRepository>();
             serviceCollection.AddScoped<IMedicoEspecialidadeRepository, MedicoEspecialidadeRepository>();
+
+            serviceCollection.AddSingleton<IConnection>(sp =>
+            {
+                var factory = new ConnectionFactory() { HostName = "localhost" };
+                return factory.CreateConnectionAsync().GetAwaiter().GetResult();
+            });
         }
 
         public static void AddAuthJwT(this IServiceCollection serviceCollection)
