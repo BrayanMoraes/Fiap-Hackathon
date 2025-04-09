@@ -20,51 +20,79 @@ namespace HealthMed.Business.Services
 
         public async Task<OperationResult<Agenda>> GetByIdAsync(Guid id)
         {
-            var agenda = await _repository.GetByIdAsync(id);
-            if (agenda == null)
+            try
             {
+                var agenda = await _repository.GetByIdAsync(id);
+                if (agenda == null)
+                {
+                    return new OperationResult<Agenda>
+                    {
+                        Status = TypeReturnStatus.Error,
+                        Message = "Agenda não encontrada."
+                    };
+                }
+
                 return new OperationResult<Agenda>
                 {
-                    Status = TypeReturnStatus.Error,
-                    Message = "Agenda não encontrada."
+                    Status = TypeReturnStatus.Success,
+                    ResultObject = agenda
                 };
             }
-
-            return new OperationResult<Agenda>
+            catch (Exception ex)
             {
-                Status = TypeReturnStatus.Success,
-                ResultObject = agenda
-            };
+                return ServiceHelper.HandleException<Agenda>(ex, "Erro ao buscar agenda.");
+            }
         }
 
         public async Task<OperationResult<object>> AddAsync(Agenda agenda)
         {
-            await _repository.AddAsync(agenda);
-            return new OperationResult<object>
+            try
             {
-                Status = TypeReturnStatus.Success,
-                Message = "Agenda adicionada com sucesso."
-            };
+                await _repository.AddAsync(agenda);
+                return new OperationResult<object>
+                {
+                    Status = TypeReturnStatus.Success,
+                    Message = "Agenda adicionada com sucesso."
+                };
+            }
+            catch (Exception ex)
+            {
+                return ServiceHelper.HandleException<object>(ex, "Erro ao adicionar agenda.");
+            }
         }
 
         public async Task<OperationResult<object>> UpdateAsync(Agenda agenda)
         {
-            await _repository.UpdateAsync(agenda);
-            return new OperationResult<object>
+            try
             {
-                Status = TypeReturnStatus.Success,
-                Message = "Agenda atualizada com sucesso."
-            };
+                await _repository.UpdateAsync(agenda);
+                return new OperationResult<object>
+                {
+                    Status = TypeReturnStatus.Success,
+                    Message = "Agenda atualizada com sucesso."
+                };
+            }
+            catch (Exception ex)
+            {
+                return ServiceHelper.HandleException<object>(ex, "Erro ao atualizar agenda.");
+            }
         }
 
         public async Task<OperationResult<IEnumerable<Agenda>>> GetByMedicoIdAsync(Guid medicoId)
         {
-            var agendas = await _repository.GetByMedicoIdAsync(medicoId);
-            return new OperationResult<IEnumerable<Agenda>>
+            try
             {
-                Status = TypeReturnStatus.Success,
-                ResultObject = agendas
-            };
+                var agendas = await _repository.GetByMedicoIdAsync(medicoId);
+                return new OperationResult<IEnumerable<Agenda>>
+                {
+                    Status = TypeReturnStatus.Success,
+                    ResultObject = agendas
+                };
+            }
+            catch (Exception ex)
+            {
+                return ServiceHelper.HandleException<IEnumerable<Agenda>>(ex, "Erro ao buscar agendas por médico.");
+            }
         }
     }
 }

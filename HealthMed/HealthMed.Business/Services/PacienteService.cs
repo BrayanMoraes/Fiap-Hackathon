@@ -1,11 +1,12 @@
 ﻿using HealthMed.Domain.Entities;
+using HealthMed.Domain.Enum;
 using HealthMed.Domain.Interfaces.Repository;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using HealthMed.Domain.Interfaces.Services;
 using HealthMed.Domain.Shared;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace HealthMed.Business.Services
 {
@@ -21,44 +22,62 @@ namespace HealthMed.Business.Services
 
         public async Task<OperationResult<string>> LoginAsync(string cpfOrEmail, string senha)
         {
-            var paciente = await _repository.GetByCpfOrEmailAsync(cpfOrEmail, cpfOrEmail);
-            if (paciente == null || !BCrypt.Net.BCrypt.Verify(senha, paciente.Senha))
+            try
             {
-                return null; // Retorna null caso não seja autenticado
+                var paciente = await _repository.GetByCpfOrEmailAsync(cpfOrEmail, cpfOrEmail);
+                if (paciente == null || !BCrypt.Net.BCrypt.Verify(senha, paciente.Senha))
+                {
+                    return new OperationResult<string>
+                    {
+                        Status = TypeReturnStatus.Error,
+                        Message = "CPF ou senha inválidos."
+                    };
+                }
+
+                var token = GerarTokenJWT(paciente); // Gera o token JWT
+
+                return new OperationResult<string>
+                {
+                    Status = TypeReturnStatus.Success,
+                    Message = "Login realizado com sucesso.",
+                    ResultObject = token
+                };
             }
-
-            var token = GerarTokenJWT(paciente); // Gera o token JWT
-
-            return new OperationResult<string>
+            catch (Exception ex)
             {
-                Status = Domain.Enum.TypeReturnStatus.Success,
-                Message = "Login realizado com sucesso.",
-                ResultObject = token
-            };
+                return ServiceHelper.HandleException<string>(ex, "Erro ao realizar login.");
+            }
         }
 
         public async Task<OperationResult<string>> CadastrarAsync(Paciente paciente)
         {
-            var pacienteExistente = await _repository.GetByCpfOrEmailAsync(paciente.CPF, paciente.Email);
-            if (pacienteExistente != null)
+            try
             {
+                var pacienteExistente = await _repository.GetByCpfOrEmailAsync(paciente.CPF, paciente.Email);
+                if (pacienteExistente != null)
+                {
+                    return new OperationResult<string>
+                    {
+                        Status = TypeReturnStatus.Conflict,
+                        Message = "Paciente com este CPF ou e-mail já está cadastrado."
+                    };
+                }
+
+                paciente.Senha = BCrypt.Net.BCrypt.HashPassword(paciente.Senha);
+                paciente.Id = Guid.NewGuid();
+
+                await _repository.AddAsync(paciente);
+
                 return new OperationResult<string>
                 {
-                    Status = Domain.Enum.TypeReturnStatus.Conflict,
-                    Message = "Paciente com este CPF ou e-mail já está cadastrado."
+                    Status = TypeReturnStatus.Success,
+                    Message = "Paciente cadastrado com sucesso."
                 };
             }
-
-            paciente.Senha = BCrypt.Net.BCrypt.HashPassword(paciente.Senha);
-            paciente.Id = Guid.NewGuid();
-
-            await _repository.AddAsync(paciente);
-
-            return new OperationResult<string>
+            catch (Exception ex)
             {
-                Status = Domain.Enum.TypeReturnStatus.Success,
-                Message = "Paciente cadastrado com sucesso."
-            };
+                return ServiceHelper.HandleException<string>(ex, "Erro ao cadastrar paciente.");
+            }
         }
 
         private string GerarTokenJWT(Paciente paciente)

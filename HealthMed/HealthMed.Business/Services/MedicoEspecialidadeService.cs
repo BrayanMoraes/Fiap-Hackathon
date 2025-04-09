@@ -1,6 +1,8 @@
 ﻿using HealthMed.Domain.DTO;
+using HealthMed.Domain.Enum;
 using HealthMed.Domain.Interfaces.Repository;
 using HealthMed.Domain.Interfaces.Services;
+using HealthMed.Domain.Shared;
 using StackExchange.Redis;
 using System.Text.Json;
 
@@ -17,25 +19,41 @@ namespace HealthMed.Business.Services
             _redisCache = redisConnection.GetDatabase();
         }
 
-        public async Task<ICollection<MedicoEspecialidadeDTO>> ObterTodasEspecialidades()
+        public async Task<OperationResult<ICollection<MedicoEspecialidadeDTO>>> ObterTodasEspecialidades()
         {
-            const string cacheKey = "MedicoEspecialidades";
-
-            var cachedData = await _redisCache.StringGetAsync(cacheKey);
-            if (!string.IsNullOrEmpty(cachedData))
+            try
             {
-                return JsonSerializer.Deserialize<ICollection<MedicoEspecialidadeDTO>>(cachedData);
+                const string cacheKey = "MedicoEspecialidades";
+
+                var cachedData = await _redisCache.StringGetAsync(cacheKey);
+                if (!string.IsNullOrEmpty(cachedData))
+                {
+                    var especialidades = JsonSerializer.Deserialize<ICollection<MedicoEspecialidadeDTO>>(cachedData);
+                    return new OperationResult<ICollection<MedicoEspecialidadeDTO>>
+                    {
+                        Status = TypeReturnStatus.Success,
+                        ResultObject = especialidades
+                    };
+                }
+
+                var especialidadesDb = await _repository.ObterTodasEspecialidades();
+
+                await _redisCache.StringSetAsync(
+                    cacheKey,
+                    JsonSerializer.Serialize(especialidadesDb),
+                    TimeSpan.FromHours(1)
+                );
+
+                return new OperationResult<ICollection<MedicoEspecialidadeDTO>>
+                {
+                    Status = TypeReturnStatus.Success,
+                    ResultObject = especialidadesDb
+                };
             }
-
-            var especialidades = await _repository.ObterTodasEspecialidades();
-
-            await _redisCache.StringSetAsync(
-                cacheKey,
-                JsonSerializer.Serialize(especialidades),
-                TimeSpan.FromHours(1)
-            );
-
-            return especialidades;
+            catch (Exception ex)
+            {
+                return ServiceHelper.HandleException<ICollection<MedicoEspecialidadeDTO>>(ex, "Erro ao obter especialidades.");
+            }
         }
     }
 }

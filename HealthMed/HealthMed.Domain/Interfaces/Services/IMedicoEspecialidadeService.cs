@@ -1,9 +1,10 @@
 ﻿using HealthMed.Domain.DTO;
+using HealthMed.Domain.Shared;
 
 namespace HealthMed.Domain.Interfaces.Services
 {
     public interface IMedicoEspecialidadeService
     {
-        Task<ICollection<MedicoEspecialidadeDTO>> ObterTodasEspecialidades();
+        Task<OperationResult<ICollection<MedicoEspecialidadeDTO>>> ObterTodasEspecialidades();
     }
 }
