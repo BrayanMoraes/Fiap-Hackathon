@@ -1,4 +1,5 @@
 using StackExchange.Redis;
+using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,9 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.UseHttpMetrics(); // Adiciona o middleware para métricas HTTP
+
 app.MapControllers();
+app.MapMetrics(); // Mapeia o endpoint de métricas
 
 app.Run();
