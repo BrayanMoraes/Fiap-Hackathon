@@ -45,18 +45,18 @@ jobs:
        
       # Build HealthMed.API
       - name: Build HealthMed.API
-        run: dotnet build HealthMed.API/HealthMed.API.csproj --configuration Release --no-restore
+        run: dotnet build HealthMed/HealthMed.API/HealthMed.API.csproj --configuration Release --no-restore
       
       # Build HealthMed.AgendaConsumer
       - name: Build HealthMed.AgendaConsumer
-        run: dotnet build HealthMed.AgendaConsumer/HealthMed.AgendaConsumer.csproj --configuration Release --no-restore
+        run: dotnet build HealthMed/HealthMed.AgendaConsumer/HealthMed.AgendaConsumer.csproj --configuration Release --no-restore
       
       # Build HealthMed.ConsultaAgendadaConsumer
       - name: Build HealthMed.ConsultaAgendadaConsumer
-        run: dotnet build HealthMed.ConsultaAgendadaConsumer/HealthMed.ConsultaAgendadaConsumer.csproj --configuration Release --no-restore
+        run: dotnet build HealthMed/HealthMed.ConsultaAgendadaConsumer/HealthMed.ConsultaAgendadaConsumer.csproj --configuration Release --no-restore
       
       # Run tests
       - name: Run tests
-        run: dotnet test HealthMed.Tests/HealthMed.Tests.csproj --configuration Release --no-build --verbosity normal
+        run: dotnet test HealthMed/HealthMed.Tests/HealthMed.Tests.csproj --configuration Release --no-build --verbosity normal
 
       
