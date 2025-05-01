@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using HealthMed.Infra.Data;
 using HealthMed.IoC;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,13 +45,10 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddSingleton<IConnectionMultiplexer>(opt =>
    ConnectionMultiplexer.Connect("localhost:30007"));
 
-// Configure Entity Framework Core with a database connection  
-builder.Services.AddDbContext<AppDbContext>(options =>
-   options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
 builder.Services.AddServices();
 builder.Services.AddAuthJwT();
 builder.Services.AddRabbitMq();
+builder.Services.AddSql(builder.Configuration);
 
 var app = builder.Build();
 

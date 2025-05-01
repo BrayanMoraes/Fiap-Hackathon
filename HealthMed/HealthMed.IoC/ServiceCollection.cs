@@ -1,9 +1,12 @@
 ﻿using HealthMed.Business.Services;
 using HealthMed.Domain.Interfaces.Repository;
 using HealthMed.Domain.Interfaces.Services;
+using HealthMed.Infra.Data;
 using HealthMed.Infra.Repositories;
 using HealthMed.Infra.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using RabbitMQ.Client;
@@ -24,12 +27,6 @@ namespace HealthMed.IoC
             serviceCollection.AddScoped<IMedicoRepository, MedicoRepository>();
             serviceCollection.AddScoped<IMedicoEspecialidadeRepository, MedicoEspecialidadeRepository>();
             serviceCollection.AddScoped<IAgendaRepository, AgendaRepository>();
-
-            //serviceCollection.AddSingleton<IConnection>(sp =>
-            //{
-            //    var factory = new ConnectionFactory() { HostName = "localhost" };
-            //    return factory.CreateConnectionAsync().GetAwaiter().GetResult();
-            //});
         }
 
         public static void AddAuthJwT(this IServiceCollection serviceCollection)
@@ -68,6 +65,12 @@ namespace HealthMed.IoC
                 };
                 return factory.CreateConnectionAsync().GetAwaiter().GetResult();
             });
+        }
+
+        public static void AddSql(this IServiceCollection serviceCollection, IConfiguration configuration)
+        {
+            serviceCollection.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
         }
     }
 }

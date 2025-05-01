@@ -13,7 +13,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMed.Business", "Healt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMed.IoC", "HealthMed.IoC\HealthMed.IoC.csproj", "{BABC0C13-40E2-4DFF-AB4B-BF504D4DD288}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMed.AgendaConsumer", "HealthMed.AgendaConsumer\HealthMed.AgendaConsumer.csproj", "{6D7EA236-1A75-4136-894E-34DE83DF18A0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMed.AgendaConsumer", "HealthMed.AgendaConsumer\HealthMed.AgendaConsumer.csproj", "{404A2551-2D52-4051-A862-2BEA5A7F5D32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMed.ConsultaAgendadaConsumer", "HealthMed.ConsultaAgendadaConsumer\HealthMed.ConsultaAgendadaConsumer.csproj", "{ADD0931E-41F6-4C12-AFBA-AFAB781AEF69}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +43,14 @@ Global
 		{BABC0C13-40E2-4DFF-AB4B-BF504D4DD288}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BABC0C13-40E2-4DFF-AB4B-BF504D4DD288}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BABC0C13-40E2-4DFF-AB4B-BF504D4DD288}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6D7EA236-1A75-4136-894E-34DE83DF18A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6D7EA236-1A75-4136-894E-34DE83DF18A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6D7EA236-1A75-4136-894E-34DE83DF18A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6D7EA236-1A75-4136-894E-34DE83DF18A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{404A2551-2D52-4051-A862-2BEA5A7F5D32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{404A2551-2D52-4051-A862-2BEA5A7F5D32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{404A2551-2D52-4051-A862-2BEA5A7F5D32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{404A2551-2D52-4051-A862-2BEA5A7F5D32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADD0931E-41F6-4C12-AFBA-AFAB781AEF69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADD0931E-41F6-4C12-AFBA-AFAB781AEF69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADD0931E-41F6-4C12-AFBA-AFAB781AEF69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADD0931E-41F6-4C12-AFBA-AFAB781AEF69}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
