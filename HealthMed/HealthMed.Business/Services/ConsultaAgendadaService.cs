@@ -134,7 +134,9 @@ namespace HealthMed.Business.Services
 
                 consulta.Cancelada = true;
                 consulta.MotivoCancelamento = motivoCancelamento;
-                await _repository.UpdateAsync(consulta);
+
+                var message = JsonSerializer.Serialize(consulta);
+                await PublishMessageAsync("consulta.cancel", message);
 
                 return new OperationResult<object>
                 {
@@ -148,16 +150,16 @@ namespace HealthMed.Business.Services
             }
         }
 
-        private async Task PublishMessageAsync(string routingKey, string message)
+        private async Task PublishMessageAsync(string queueName, string message)
         {
             using var channel = await _rabbitMqConnection.CreateChannelAsync();
-            await channel.ExchangeDeclareAsync(exchange: "consulta_exchange", type: ExchangeType.Direct);
+            await channel.QueueDeclareAsync(queue: queueName, durable: true, exclusive: false, autoDelete: false);
 
             var body = Encoding.UTF8.GetBytes(message);
 
-            await channel.BasicPublishAsync(exchange: "consulta_exchange",
-                                 routingKey: routingKey,
-                                 body: body);
+            await channel.BasicPublishAsync(exchange: string.Empty,
+                                             routingKey: queueName,
+                                             body: body);
         }
     }
 }

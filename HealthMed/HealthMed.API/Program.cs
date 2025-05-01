@@ -1,21 +1,60 @@
 using StackExchange.Redis;
 using Prometheus;
+using Microsoft.EntityFrameworkCore;
+using HealthMed.Infra.Data;
+using HealthMed.IoC;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container.  
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle  
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Insira o token JWT no campo abaixo. Exemplo: Bearer {seu_token}"
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
 
 builder.Services.AddSingleton<IConnectionMultiplexer>(opt =>
-    ConnectionMultiplexer.Connect("localhost:30007"));
+   ConnectionMultiplexer.Connect("localhost:30007"));
+
+// Configure Entity Framework Core with a database connection  
+builder.Services.AddDbContext<AppDbContext>(options =>
+   options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddServices();
+builder.Services.AddAuthJwT();
+builder.Services.AddRabbitMq();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline.  
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -26,9 +65,9 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.UseHttpMetrics(); // Adiciona o middleware para métricas HTTP
+app.UseHttpMetrics(); // Adiciona o middleware para métricas HTTP  
 
 app.MapControllers();
-app.MapMetrics(); // Mapeia o endpoint de métricas
+app.MapMetrics(); // Mapeia o endpoint de métricas  
 
 app.Run();

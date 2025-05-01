@@ -1,10 +1,12 @@
 ﻿using HealthMed.Domain.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HealthMed.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Medico, Paciente")]
     public class MedicoEspecialidadeController : ControllerBase
     {
         private readonly IMedicoEspecialidadeService _service;

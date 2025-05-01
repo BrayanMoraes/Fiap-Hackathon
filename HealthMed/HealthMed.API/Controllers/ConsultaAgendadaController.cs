@@ -2,16 +2,13 @@ using HealthMed.Domain.Entities;
 using HealthMed.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace HealthMed.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Roles = "Paciente")]
-    public class ConsultaAgendadaController : ControllerBase
+    public class ConsultaAgendadaController : HealthMedBaseController
     {
         private readonly IConsultaAgendadaService _service;
 
@@ -23,33 +20,29 @@ namespace HealthMed.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
-            var consulta = await _service.GetByIdAsync(id);
-            if (consulta == null)
-            {
-                return NotFound();
-            }
-            return Ok(consulta);
+            var result = await _service.GetByIdAsync(id);
+            return TratarRetorno(result);
         }
 
         [HttpGet("medico/{medicoId}")]
         public async Task<IActionResult> GetByMedicoId(Guid medicoId)
         {
-            var consultas = await _service.GetByMedicoIdAsync(medicoId);
-            return Ok(consultas);
+            var result = await _service.GetByMedicoIdAsync(medicoId);
+            return TratarRetorno(result);
         }
 
         [HttpGet("paciente/{pacienteId}")]
         public async Task<IActionResult> GetByPacienteId(Guid pacienteId)
         {
-            var consultas = await _service.GetByPacienteIdAsync(pacienteId);
-            return Ok(consultas);
+            var result = await _service.GetByPacienteIdAsync(pacienteId);
+            return TratarRetorno(result);
         }
 
         [HttpPost]
         public async Task<IActionResult> Add(ConsultaAgendada consultaAgendada)
         {
-            await _service.AddAsync(consultaAgendada);
-            return CreatedAtAction(nameof(GetById), new { id = consultaAgendada.Id }, consultaAgendada);
+            var result = await _service.AddAsync(consultaAgendada);
+            return TratarRetorno(result);
         }
 
         [HttpPut("{id}")]
@@ -60,15 +53,15 @@ namespace HealthMed.API.Controllers
                 return BadRequest();
             }
 
-            await _service.UpdateAsync(consultaAgendada);
-            return NoContent();
+            var result = await _service.UpdateAsync(consultaAgendada);
+            return TratarRetorno(result);
         }
 
         [HttpPut("cancelar/{id}")]
         public async Task<IActionResult> CancelarConsulta(Guid id, [FromBody] string motivoCancelamento)
         {
-            await _service.CancelarConsultaAsync(id, motivoCancelamento);
-            return NoContent();
+            var result = await _service.CancelarConsultaAsync(id, motivoCancelamento);
+            return TratarRetorno(result);
         }
     }
 }

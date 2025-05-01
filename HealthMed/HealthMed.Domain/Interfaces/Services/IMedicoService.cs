@@ -6,6 +6,6 @@ namespace HealthMed.Domain.Interfaces.Services
     public interface IMedicoService
     {
         Task<OperationResult<Guid?>> CadastroMedico(MedicoCadastroDTO medicoCadastroDTO);
-        Task<OperationResult<MedicoLoginDTO?>> Login(MedicoLoginDTO medicoLoginDTO);
+        Task<OperationResult<MedicoLoginRetornoDTO?>> Login(MedicoLoginDTO medicoLoginDTO);
     }
 }

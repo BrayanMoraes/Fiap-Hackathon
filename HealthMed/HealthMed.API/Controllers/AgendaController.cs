@@ -1,17 +1,14 @@
-using HealthMed.Domain.Entities;
+using HealthMed.Domain.DTO;
 using HealthMed.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace HealthMed.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Roles = "Medico")]
-    public class AgendaController : ControllerBase
+    public class AgendaController : HealthMedBaseController
     {
         private readonly IAgendaService _service;
 
@@ -23,38 +20,29 @@ namespace HealthMed.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
-            var agenda = await _service.GetByIdAsync(id);
-            if (agenda == null)
-            {
-                return NotFound();
-            }
-            return Ok(agenda);
+            var result = await _service.GetByIdAsync(id);
+            return TratarRetorno(result);
         }
 
         [HttpGet("medico/{medicoId}")]
         public async Task<IActionResult> GetByMedicoId(Guid medicoId)
         {
-            var agendas = await _service.GetByMedicoIdAsync(medicoId);
-            return Ok(agendas);
+            var result = await _service.GetByMedicoIdAsync(medicoId);
+            return TratarRetorno(result);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(Agenda agenda)
+        public async Task<IActionResult> Add(GerenciarAgendaDTO agenda)
         {
-            await _service.AddAsync(agenda);
-            return CreatedAtAction(nameof(GetById), new { id = agenda.Id }, agenda);
+            var result = await _service.AddAsync(agenda);
+            return TratarRetorno(result);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, Agenda agenda)
+        public async Task<IActionResult> Update(GerenciarAgendaDTO agenda)
         {
-            if (id != agenda.Id)
-            {
-                return BadRequest();
-            }
-
-            await _service.UpdateAsync(agenda);
-            return NoContent();
+            var result = await _service.UpdateAsync(agenda);
+            return TratarRetorno(result);
         }
     }
 }

@@ -55,7 +55,7 @@ namespace HealthMed.Business.Services
             }
         }
 
-        public async Task<OperationResult<MedicoLoginDTO?>> Login(MedicoLoginDTO medicoLoginDTO)
+        public async Task<OperationResult<MedicoLoginRetornoDTO?>> Login(MedicoLoginDTO medicoLoginDTO)
         {
             try
             {
@@ -71,26 +71,9 @@ namespace HealthMed.Business.Services
                     return PreparaRetornoLogin("CRM ou Senha inválidos.", TypeReturnStatus.Error);
                 }
 
-                // Geração do token JWT
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes("sua-chave-secreta-muito-segura");
-                var tokenDescriptor = new SecurityTokenDescriptor
-                {
-                    Subject = new ClaimsIdentity(new[]
-                    {
-                    new Claim(ClaimTypes.NameIdentifier, medico.Id.ToString()),
-                    new Claim(ClaimTypes.Name, medico.Nome),
-                    new Claim("CRM", medico.CRM),
-                    new Claim(ClaimTypes.Role, "Medico")
-                }),
-                    Expires = DateTime.UtcNow.AddHours(2),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-                };
+                string tokenString = GerarJwtToken(medico);
 
-                var token = tokenHandler.CreateToken(tokenDescriptor);
-                var tokenString = tokenHandler.WriteToken(token);
-
-                var loginReturn = new MedicoLoginDTO
+                var loginReturn = new MedicoLoginRetornoDTO
                 {
                     NomeMedico = medico.Nome,
                     MedicoId = medico.Id,
@@ -101,8 +84,30 @@ namespace HealthMed.Business.Services
             }
             catch (Exception ex)
             {
-                return ServiceHelper.HandleException<MedicoLoginDTO?>(ex, "Erro ao realizar login.");
+                return ServiceHelper.HandleException<MedicoLoginRetornoDTO?>(ex, "Erro ao realizar login.");
             }
+        }
+
+        private static string GerarJwtToken(Medico medico)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes("D43493B1-FD3A-49DB-83FF-531A61A5313A");
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim(ClaimTypes.NameIdentifier, medico.Id.ToString()),
+                    new Claim(ClaimTypes.Name, medico.Nome),
+                    new Claim("CRM", medico.CRM),
+                    new Claim(ClaimTypes.Role, "Medico")
+                }),
+                Expires = DateTime.UtcNow.AddHours(2),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var tokenString = tokenHandler.WriteToken(token);
+            return tokenString;
         }
 
         private static OperationResult<Guid?> PreparaRetornoCadastro(string message, TypeReturnStatus operationStatus, Guid? guid = null)
@@ -115,9 +120,9 @@ namespace HealthMed.Business.Services
             };
         }
 
-        private static OperationResult<MedicoLoginDTO?> PreparaRetornoLogin(string message, TypeReturnStatus operationStatus, MedicoLoginDTO? informacaoLogin = null)
+        private static OperationResult<MedicoLoginRetornoDTO?> PreparaRetornoLogin(string message, TypeReturnStatus operationStatus, MedicoLoginRetornoDTO? informacaoLogin = null)
         {
-            return new OperationResult<MedicoLoginDTO?>
+            return new OperationResult<MedicoLoginRetornoDTO?>
             {
                 Message = message,
                 Status = operationStatus,

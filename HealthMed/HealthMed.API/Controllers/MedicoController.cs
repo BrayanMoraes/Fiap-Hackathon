@@ -25,7 +25,7 @@ namespace HealthMed.API.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] MedicoLoginDTO loginRequest)
         {
-            return TratarRetorno<MedicoLoginDTO?>(await _medicoService.Login(loginRequest));
+            return TratarRetorno<MedicoLoginRetornoDTO?>(await _medicoService.Login(loginRequest));
         }
     }
 }
