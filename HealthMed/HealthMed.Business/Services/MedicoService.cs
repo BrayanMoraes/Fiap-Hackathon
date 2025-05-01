@@ -29,7 +29,8 @@ namespace HealthMed.Business.Services
                     return PreparaRetornoCadastro("CRM, Nome e Senha são obrigatórios.", TypeReturnStatus.Error);
                 }
 
-                var medicoExistente = await _repository.GetByCRMAsync(medicoCadastroDTO.CRM);
+                var encryptedCRM = BCrypt.Net.BCrypt.HashPassword(medicoCadastroDTO.CRM);
+                var medicoExistente = await _repository.GetByCRMAsync(encryptedCRM);
 
                 if (medicoExistente != null)
                 {
@@ -38,7 +39,7 @@ namespace HealthMed.Business.Services
 
                 var medico = new Medico
                 {
-                    CRM = medicoCadastroDTO.CRM,
+                    CRM = encryptedCRM,
                     Nome = medicoCadastroDTO.NomeCompleto,
                     IdEspecialidade = medicoCadastroDTO.IdEspecialidade,
                     Senha = BCrypt.Net.BCrypt.HashPassword(medicoCadastroDTO.Senha),
@@ -66,7 +67,7 @@ namespace HealthMed.Business.Services
 
                 var medico = await _repository.GetByCRMAsync(medicoLoginDTO.CRM);
 
-                if (medico == null || !BCrypt.Net.BCrypt.Verify(medicoLoginDTO.Senha, medico.Senha))
+                if (medico == null || !BCrypt.Net.BCrypt.Verify(medicoLoginDTO.CRM, medico.CRM) || !BCrypt.Net.BCrypt.Verify(medicoLoginDTO.Senha, medico.Senha))
                 {
                     return PreparaRetornoLogin("CRM ou Senha inválidos.", TypeReturnStatus.Error);
                 }

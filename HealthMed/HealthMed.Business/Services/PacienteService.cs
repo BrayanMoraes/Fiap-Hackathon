@@ -13,7 +13,7 @@ namespace HealthMed.Business.Services
     public class PacienteService : IPacienteService
     {
         private readonly IPacienteRepository _repository;
-        private readonly string _jwtSecret = "sua-chave-secreta-muito-segura"; // Substitua por uma chave segura
+        private readonly string _jwtSecret = "D43493B1-FD3A-49DB-83FF-531A61A5313A";
 
         public PacienteService(IPacienteRepository repository)
         {
@@ -24,7 +24,9 @@ namespace HealthMed.Business.Services
         {
             try
             {
-                var paciente = await _repository.GetByCpfOrEmailAsync(cpfOrEmail, cpfOrEmail);
+                var encryptedCpf = BCrypt.Net.BCrypt.HashPassword(cpfOrEmail);
+
+                var paciente = await _repository.GetByCpfOrEmailAsync(encryptedCpf, cpfOrEmail);
                 if (paciente == null || !BCrypt.Net.BCrypt.Verify(senha, paciente.Senha))
                 {
                     return new OperationResult<string>
@@ -34,7 +36,7 @@ namespace HealthMed.Business.Services
                     };
                 }
 
-                var token = GerarTokenJWT(paciente); // Gera o token JWT
+                var token = GerarTokenJWT(paciente);
 
                 return new OperationResult<string>
                 {
@@ -64,6 +66,7 @@ namespace HealthMed.Business.Services
                 }
 
                 paciente.Senha = BCrypt.Net.BCrypt.HashPassword(paciente.Senha);
+                paciente.CPF = BCrypt.Net.BCrypt.HashPassword(paciente.CPF);
                 paciente.Id = Guid.NewGuid();
 
                 await _repository.AddAsync(paciente);
