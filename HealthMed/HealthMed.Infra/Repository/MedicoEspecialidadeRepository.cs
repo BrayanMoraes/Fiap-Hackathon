@@ -1,4 +1,5 @@
 ﻿using HealthMed.Domain.DTO;
+using HealthMed.Domain.Entities;
 using HealthMed.Domain.Interfaces.Repository;
 using HealthMed.Infra.Data;
 using Microsoft.EntityFrameworkCore;
@@ -23,5 +24,10 @@ namespace HealthMed.Infra.Repository
             }).ToListAsync();
         }
 
+        public async Task AddAsync(MedicoEspecialidade especialidade)
+        {
+            await _context.MedicoEspecialidades.AddAsync(especialidade);
+            await _context.SaveChangesAsync();
+        }
     }
 }

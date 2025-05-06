@@ -11,13 +11,30 @@
 
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.3" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="Moq" Version="4.20.72" />
     <PackageReference Include="xunit" Version="2.5.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HealthMed.AgendaConsumer\HealthMed.AgendaConsumer.csproj" />
+    <ProjectReference Include="..\HealthMed.API\HealthMed.API.csproj" />
+    <ProjectReference Include="..\HealthMed.Business\HealthMed.Business.csproj" />
+    <ProjectReference Include="..\HealthMed.ConsultaAgendadaConsumer\HealthMed.ConsultaAgendadaConsumer.csproj" />
+    <ProjectReference Include="..\HealthMed.Domain\HealthMed.Domain.csproj" />
+    <ProjectReference Include="..\HealthMed.Infra\HealthMed.Infra.csproj" />
+    <ProjectReference Include="..\HealthMed.IoC\HealthMed.IoC.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>
