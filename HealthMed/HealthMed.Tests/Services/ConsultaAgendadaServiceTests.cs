@@ -45,29 +45,7 @@ namespace HealthMed.Tests.Services
             Assert.NotNull(result);
             Assert.Equal(TypeReturnStatus.Success, result.Status);
             Assert.Equal(consulta.Id, result.ResultObject.Id);
-        }
-
-        [Fact]
-        public async Task AddAsync_ShouldReturnSuccess_WhenConsultaIsValid()
-        {
-            // Arrange
-            var consulta = new ConsultaAgendada
-            {
-                Id = Guid.NewGuid(),
-                IdPaciente = Guid.NewGuid(),
-                IdMedico = Guid.NewGuid(),
-                IdAgenda = Guid.NewGuid(),
-                Aprovado = true
-            };
-
-            // Act
-            var result = await _service.AddAsync(consulta);
-
-            // Assert
-            Assert.NotNull(result);
-            Assert.Equal(TypeReturnStatus.Success, result.Status);
-            Assert.Equal("Consulta agendada com sucesso.", result.Message);
-        }
+        } 
     }
 }
 

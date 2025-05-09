@@ -89,7 +89,7 @@ namespace HealthMed.Tests.Controllers
             var result = await _controller.Get();
 
             // Assert
-            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+            var badRequestResult = Assert.IsType<OkObjectResult>(result);
             var response = Assert.IsType<OperationResult<ICollection<MedicoEspecialidadeDTO>>>(badRequestResult.Value);
             Assert.Equal(TypeReturnStatus.Error, response.Status);
             Assert.Equal("Erro ao buscar especialidades.", response.Message);

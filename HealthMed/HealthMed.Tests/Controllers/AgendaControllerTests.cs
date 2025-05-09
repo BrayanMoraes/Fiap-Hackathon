@@ -47,8 +47,8 @@ namespace HealthMed.Tests.Controllers
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
-            var response = Assert.IsType<AgendaRetornoDTO>(okResult.Value);
-            Assert.Equal(agendaId, response.Id);
+            var response = Assert.IsType<OperationResult<AgendaRetornoDTO>>(okResult.Value);
+            Assert.Equal(agendaId, response.ResultObject.Id);
         }
 
         [Fact]
@@ -70,9 +70,9 @@ namespace HealthMed.Tests.Controllers
             var result = await _controller.GetById(agendaId);
 
             // Assert
-            var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
-            var response = Assert.IsType<string>(notFoundResult.Value);
-            Assert.Equal("Agenda não encontrada.", response);
+            var notFoundResult = Assert.IsType<BadRequestObjectResult>(result);
+            var response = Assert.IsType<OperationResult<AgendaRetornoDTO>>(notFoundResult.Value);
+            Assert.Equal("Agenda não encontrada.", response.Message);
         }
     }
 }

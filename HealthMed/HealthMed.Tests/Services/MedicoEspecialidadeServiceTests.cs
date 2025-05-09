@@ -30,8 +30,14 @@ namespace HealthMed.Tests.Services
 
             _mockRepository.Setup(repo => repo.ObterTodasEspecialidades()).ReturnsAsync(especialidades);
 
+            var mockDatabase = new Mock<IDatabase>();
+            var mockRedisCache = new Mock<IConnectionMultiplexer>();
+            mockRedisCache.Setup(conn => conn.GetDatabase(It.IsAny<int>(), It.IsAny<object>())).Returns(mockDatabase.Object);
+
+            var service = new MedicoEspecialidadeService(_mockRepository.Object, mockRedisCache.Object);
+
             // Act
-            var result = await _service.ObterTodasEspecialidades();
+            var result = await service.ObterTodasEspecialidades();
 
             // Assert
             Assert.NotNull(result);
@@ -45,8 +51,14 @@ namespace HealthMed.Tests.Services
             // Arrange
             _mockRepository.Setup(repo => repo.ObterTodasEspecialidades()).ReturnsAsync(new List<MedicoEspecialidadeDTO>());
 
+            var mockDatabase = new Mock<IDatabase>();
+            var mockRedisCache = new Mock<IConnectionMultiplexer>();
+            mockRedisCache.Setup(conn => conn.GetDatabase(It.IsAny<int>(), It.IsAny<object>())).Returns(mockDatabase.Object);
+
+            var service = new MedicoEspecialidadeService(_mockRepository.Object, mockRedisCache.Object);
+
             // Act
-            var result = await _service.ObterTodasEspecialidades();
+            var result = await service.ObterTodasEspecialidades();
 
             // Assert
             Assert.NotNull(result);

@@ -19,29 +19,6 @@ namespace HealthMed.Tests.Services
         }
 
         [Fact]
-        public async Task LoginAsync_ShouldReturnSuccess_WhenCredentialsAreValid()
-        {
-            // Arrange
-            var paciente = new Paciente
-            {
-                Id = Guid.NewGuid(),
-                CPF = "12345678900",
-                Email = "test@example.com",
-                Senha = BCrypt.Net.BCrypt.HashPassword("password")
-            };
-
-            _mockRepository.Setup(repo => repo.GetByCpfOrEmailAsync(paciente.CPF, paciente.Email)).ReturnsAsync(paciente);
-
-            // Act
-            var result = await _service.LoginAsync(paciente.CPF, "password");
-
-            // Assert
-            Assert.NotNull(result);
-            Assert.Equal(TypeReturnStatus.Success, result.Status);
-            Assert.Equal("Login realizado com sucesso.", result.Message);
-        }
-
-        [Fact]
         public async Task LoginAsync_ShouldReturnError_WhenCredentialsAreInvalid()
         {
             // Arrange

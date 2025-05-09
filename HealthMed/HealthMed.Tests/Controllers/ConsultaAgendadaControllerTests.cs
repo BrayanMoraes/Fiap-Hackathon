@@ -47,8 +47,8 @@ namespace HealthMed.Tests.Controllers
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
-            var response = Assert.IsType<ConsultaAgendada>(okResult.Value);
-            Assert.Equal(consultaId, response.Id);
+            var response = Assert.IsType<OperationResult<ConsultaAgendada>>(okResult.Value);
+            Assert.Equal(consultaId, response.ResultObject.Id);
         }
 
         [Fact]
@@ -70,9 +70,9 @@ namespace HealthMed.Tests.Controllers
             var result = await _controller.GetById(consultaId);
 
             // Assert
-            var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
-            var response = Assert.IsType<string>(notFoundResult.Value);
-            Assert.Equal("Consulta não encontrada.", response);
+            var notFoundResult = Assert.IsType<BadRequestObjectResult>(result);
+            var response = Assert.IsType<OperationResult<ConsultaAgendada>>(notFoundResult.Value);
+            Assert.Equal("Consulta não encontrada.", response.Message);
         }
 
         [Fact]
@@ -101,8 +101,8 @@ namespace HealthMed.Tests.Controllers
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
-            var response = Assert.IsType<string>(okResult.Value);
-            Assert.Equal("Consulta agendada com sucesso.", response);
+            var response = Assert.IsType<OperationResult<object>>(okResult.Value);
+            Assert.Equal("Consulta agendada com sucesso.", response.Message);
         }
 
         [Fact]
@@ -146,8 +146,8 @@ namespace HealthMed.Tests.Controllers
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
-            var response = Assert.IsType<string>(okResult.Value);
-            Assert.Equal("Consulta cancelada com sucesso.", response);
+            var response = Assert.IsType<OperationResult<object>>(okResult.Value);
+            Assert.Equal("Consulta cancelada com sucesso.", response.Message);
         }
     }
 }

@@ -45,8 +45,8 @@ namespace HealthMed.Tests.Controllers
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
-            var response = Assert.IsType<string>(okResult.Value);
-            Assert.Equal("token", response);
+            var response = Assert.IsType<OperationResult<string>>(okResult.Value);
+            Assert.Equal("Login realizado com sucesso.", response.Message);
         }
 
         [Fact]
@@ -73,8 +73,8 @@ namespace HealthMed.Tests.Controllers
 
             // Assert
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-            var response = Assert.IsType<string>(badRequestResult.Value);
-            Assert.Equal("CPF ou senha inválidos.", response);
+            var response = Assert.IsType<OperationResult<string>>(badRequestResult.Value);
+            Assert.Equal("CPF ou senha inválidos.", response.Message);
         }
 
         [Fact]
@@ -102,8 +102,8 @@ namespace HealthMed.Tests.Controllers
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
-            var response = Assert.IsType<string>(okResult.Value);
-            Assert.Equal("PacienteId", response);
+            var response = Assert.IsType<OperationResult<string>>(okResult.Value);
+            Assert.Equal("Paciente cadastrado com sucesso.", response.Message);
         }
 
         [Fact]
@@ -130,9 +130,9 @@ namespace HealthMed.Tests.Controllers
             var result = await _controller.Cadastrar(paciente);
 
             // Assert
-            var conflictResult = Assert.IsType<ConflictObjectResult>(result);
-            var response = Assert.IsType<string>(conflictResult.Value);
-            Assert.Equal("Paciente com este CPF ou e-mail já está cadastrado.", response);
+            var conflictResult = Assert.IsType<BadRequestObjectResult>(result);
+            var response = Assert.IsType<OperationResult<string>>(conflictResult.Value);
+            Assert.Equal("Paciente com este CPF ou e-mail já está cadastrado.", response.Message);
         }
     }
 }
