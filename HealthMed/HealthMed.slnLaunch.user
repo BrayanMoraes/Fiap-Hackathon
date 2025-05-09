@@ -4,10 +4,14 @@
     "Projects": [
       {
         "Path": "HealthMed.API\\HealthMed.API.csproj",
-        "Action": "StartWithoutDebugging"
+        "Action": "Start"
       },
       {
         "Path": "HealthMed.AgendaConsumer\\HealthMed.AgendaConsumer.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "HealthMed.ConsultaAgendadaConsumer\\HealthMed.ConsultaAgendadaConsumer.csproj",
         "Action": "Start"
       }
     ]

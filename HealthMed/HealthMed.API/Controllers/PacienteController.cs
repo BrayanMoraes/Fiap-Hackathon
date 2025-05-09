@@ -23,7 +23,7 @@ namespace HealthMed.API.Controllers
         }
 
         [HttpPost("Cadastrar")]
-        public async Task<IActionResult> Cadastrar([FromBody] Paciente paciente)
+        public async Task<IActionResult> Cadastrar([FromBody] PacienteCadastroDTO paciente)
         {
             return TratarRetorno<string>(await _service.CadastrarAsync(paciente));
         }

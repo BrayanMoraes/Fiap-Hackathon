@@ -1,4 +1,5 @@
-﻿using HealthMed.Domain.Entities;
+﻿using HealthMed.Domain.DTO;
+using HealthMed.Domain.Entities;
 using HealthMed.Domain.Enum;
 using HealthMed.Domain.Interfaces.Repository;
 using HealthMed.Domain.Interfaces.Services;
@@ -24,9 +25,8 @@ namespace HealthMed.Business.Services
         {
             try
             {
-                var encryptedCpf = BCrypt.Net.BCrypt.HashPassword(cpfOrEmail);
 
-                var paciente = await _repository.GetByCpfOrEmailAsync(encryptedCpf, cpfOrEmail);
+                var paciente = await _repository.GetByCpfOrEmailAsync(cpfOrEmail, cpfOrEmail);
                 if (paciente == null || !BCrypt.Net.BCrypt.Verify(senha, paciente.Senha))
                 {
                     return new OperationResult<string>
@@ -51,11 +51,11 @@ namespace HealthMed.Business.Services
             }
         }
 
-        public async Task<OperationResult<string>> CadastrarAsync(Paciente paciente)
+        public async Task<OperationResult<string>> CadastrarAsync(PacienteCadastroDTO paciente)
         {
             try
             {
-                var pacienteExistente = await _repository.GetByCpfOrEmailAsync(paciente.CPF, paciente.Email);
+                var pacienteExistente = await _repository.GetByCpfOrEmailAsync(paciente.Cpf, paciente.Email);
                 if (pacienteExistente != null)
                 {
                     return new OperationResult<string>
@@ -65,11 +65,15 @@ namespace HealthMed.Business.Services
                     };
                 }
 
-                paciente.Senha = BCrypt.Net.BCrypt.HashPassword(paciente.Senha);
-                paciente.CPF = BCrypt.Net.BCrypt.HashPassword(paciente.CPF);
-                paciente.Id = Guid.NewGuid();
+                var pacienteNovo = new Paciente
+                {
+                    CPF = paciente.Cpf,
+                    Email = paciente.Email,
+                    Senha = BCrypt.Net.BCrypt.HashPassword(paciente.Senha),
+                    Id = Guid.NewGuid()
+                };
 
-                await _repository.AddAsync(paciente);
+                await _repository.AddAsync(pacienteNovo);
 
                 return new OperationResult<string>
                 {
