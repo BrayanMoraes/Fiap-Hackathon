@@ -64,7 +64,7 @@ namespace HealthMed.Tests.Controllers
                 .ReturnsAsync(new OperationResult<string>
                 {
                     Status = TypeReturnStatus.Error,
-                    Message = "CPF ou senha inválidos.",
+                    Message = "CPF ou senha invalidos.",
                     ResultObject = null
                 });
 
@@ -74,7 +74,7 @@ namespace HealthMed.Tests.Controllers
             // Assert
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
             var response = Assert.IsType<OperationResult<string>>(badRequestResult.Value);
-            Assert.Equal("CPF ou senha inválidos.", response.Message);
+            Assert.Equal("CPF ou senha invalidos.", response.Message);
         }
 
         [Fact]

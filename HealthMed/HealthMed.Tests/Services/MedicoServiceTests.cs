@@ -39,7 +39,7 @@ namespace HealthMed.Tests.Services
             // Assert
             Assert.NotNull(result);
             Assert.Equal(TypeReturnStatus.Success, result.Status);
-            Assert.Equal("Médico cadastrado com Sucesso", result.Message);
+            Assert.Equal("Medico cadastrado com Sucesso", result.Message);
         }
 
         [Fact]

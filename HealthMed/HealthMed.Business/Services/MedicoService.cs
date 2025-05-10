@@ -47,7 +47,7 @@ namespace HealthMed.Business.Services
 
                 await _repository.AddAsync(medico);
 
-                return PreparaRetornoCadastro("Médico cadastrado com Sucesso", TypeReturnStatus.Success, medico.Id);
+                return PreparaRetornoCadastro("Medico cadastrado com Sucesso", TypeReturnStatus.Success, medico.Id);
             }
             catch (Exception ex)
             {

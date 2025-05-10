@@ -37,7 +37,7 @@ namespace HealthMed.Tests.Controllers
                 .ReturnsAsync(new OperationResult<Guid?>
                 {
                     Status = TypeReturnStatus.Success,
-                    Message = "Médico cadastrado com sucesso.",
+                    Message = "Medico cadastrado com Sucesso.",
                     ResultObject = Guid.NewGuid()
                 });
 
@@ -48,7 +48,7 @@ namespace HealthMed.Tests.Controllers
             var okResult = Assert.IsType<OkObjectResult>(result);
             var response = Assert.IsType<OperationResult<Guid?>>(okResult.Value);
             Assert.Equal(TypeReturnStatus.Success, response.Status);
-            Assert.Equal("Médico cadastrado com sucesso.", response.Message);
+            Assert.Equal("Medico cadastrado com Sucesso.", response.Message);
         }
 
         [Fact]

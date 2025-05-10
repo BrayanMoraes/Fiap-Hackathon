@@ -31,7 +31,7 @@ namespace HealthMed.Tests.Services
             // Assert
             Assert.NotNull(result);
             Assert.Equal(TypeReturnStatus.Error, result.Status);
-            Assert.Equal("CPF ou senha inválidos.", result.Message);
+            Assert.Equal("CPF ou senha invalidos.", result.Message);
         }
 
         [Fact]

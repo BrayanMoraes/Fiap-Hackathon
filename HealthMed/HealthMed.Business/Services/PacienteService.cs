@@ -32,7 +32,7 @@ namespace HealthMed.Business.Services
                     return new OperationResult<string>
                     {
                         Status = TypeReturnStatus.Error,
-                        Message = "CPF ou senha inválidos."
+                        Message = "CPF ou senha invalidos."
                     };
                 }
 
