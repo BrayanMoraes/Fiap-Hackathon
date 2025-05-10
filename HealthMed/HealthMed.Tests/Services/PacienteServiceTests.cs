@@ -1,4 +1,5 @@
 using HealthMed.Business.Services;
+using HealthMed.Domain.DTO;
 using HealthMed.Domain.Entities;
 using HealthMed.Domain.Enum;
 using HealthMed.Domain.Interfaces.Repository;
@@ -37,15 +38,14 @@ namespace HealthMed.Tests.Services
         public async Task CadastrarAsync_ShouldReturnSuccess_WhenPacienteIsValid()
         {
             // Arrange
-            var paciente = new Paciente
+            var paciente = new PacienteCadastroDTO
             {
-                Id = Guid.NewGuid(),
-                CPF = "12345678900",
+                Cpf = "12345678900",
                 Email = "test@example.com",
                 Senha = "password"
             };
 
-            _mockRepository.Setup(repo => repo.GetByCpfOrEmailAsync(paciente.CPF, paciente.Email)).ReturnsAsync((Paciente)null);
+            _mockRepository.Setup(repo => repo.GetByCpfOrEmailAsync(paciente.Cpf, paciente.Email)).ReturnsAsync((Paciente)null);
 
             // Act
             var result = await _service.CadastrarAsync(paciente);
@@ -68,10 +68,17 @@ namespace HealthMed.Tests.Services
                 Senha = "password"
             };
 
+            var pacienteDTO = new PacienteCadastroDTO
+            {
+                Cpf = "12345678900",
+                Email = "test@example.com",
+                Senha = "password"
+            };
+
             _mockRepository.Setup(repo => repo.GetByCpfOrEmailAsync(paciente.CPF, paciente.Email)).ReturnsAsync(paciente);
 
             // Act
-            var result = await _service.CadastrarAsync(paciente);
+            var result = await _service.CadastrarAsync(pacienteDTO);
 
             // Assert
             Assert.NotNull(result);

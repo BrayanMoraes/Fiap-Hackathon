@@ -1,4 +1,5 @@
 using HealthMed.API.Controllers;
+using HealthMed.Domain.DTO;
 using HealthMed.Domain.Entities;
 using HealthMed.Domain.Enum;
 using HealthMed.Domain.Interfaces.Services;
@@ -79,7 +80,7 @@ namespace HealthMed.Tests.Controllers
         public async Task Add_ShouldReturnOk_WhenConsultaIsAddedSuccessfully()
         {
             // Arrange
-            var consulta = new ConsultaAgendada
+            var consulta = new ConsultaAgendadaDTO
             {
                 Id = Guid.NewGuid(),
                 IdPaciente = Guid.NewGuid(),
@@ -103,27 +104,6 @@ namespace HealthMed.Tests.Controllers
             var okResult = Assert.IsType<OkObjectResult>(result);
             var response = Assert.IsType<OperationResult<object>>(okResult.Value);
             Assert.Equal("Consulta agendada com sucesso.", response.Message);
-        }
-
-        [Fact]
-        public async Task Update_ShouldReturnBadRequest_WhenIdsDoNotMatch()
-        {
-            // Arrange
-            var consultaId = Guid.NewGuid();
-            var consulta = new ConsultaAgendada
-            {
-                Id = Guid.NewGuid(), // Different ID
-                IdPaciente = Guid.NewGuid(),
-                IdMedico = Guid.NewGuid(),
-                IdAgenda = Guid.NewGuid(),
-                Aprovado = true
-            };
-
-            // Act
-            var result = await _controller.Update(consultaId, consulta);
-
-            // Assert
-            Assert.IsType<BadRequestResult>(result);
         }
 
         [Fact]

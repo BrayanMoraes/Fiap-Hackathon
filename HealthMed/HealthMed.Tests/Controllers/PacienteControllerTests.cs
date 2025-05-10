@@ -81,9 +81,9 @@ namespace HealthMed.Tests.Controllers
         public async Task Cadastrar_ShouldReturnOk_WhenCadastroIsSuccessful()
         {
             // Arrange
-            var paciente = new Paciente
+            var paciente = new PacienteCadastroDTO
             {
-                CPF = "12345678900",
+                Cpf = "12345678900",
                 Email = "test@example.com",
                 Senha = "password"
             };
@@ -110,9 +110,9 @@ namespace HealthMed.Tests.Controllers
         public async Task Cadastrar_ShouldReturnConflict_WhenPacienteAlreadyExists()
         {
             // Arrange
-            var paciente = new Paciente
+            var paciente = new PacienteCadastroDTO
             {
-                CPF = "12345678900",
+                Cpf = "12345678900",
                 Email = "test@example.com",
                 Senha = "password"
             };
