@@ -1,4 +1,5 @@
-﻿using HealthMed.Domain.Entities;
+﻿using HealthMed.Domain.DTO;
+using HealthMed.Domain.Entities;
 using HealthMed.Domain.Interfaces.Queue;
 using HealthMed.Domain.Interfaces.Repository;
 using HealthMed.Infra.Repositories;
@@ -36,8 +37,16 @@ namespace HealthMed.ConsultaAgendadaConsumer
                     var consulta = JsonSerializer.Deserialize<ConsultaAgendada>(message);
                     if (consulta != null)
                     {
-                        consulta.Cancelada = true;
-                        await _consultaAgendadaRepository.UpdateAsync(consulta);
+                        var consultaExistente = await _consultaAgendadaRepository.GetByIdAsync(consulta.Id);
+
+                        if (consultaExistente == null)
+                        {
+                            Console.WriteLine($"Consulta com ID {consulta.Id} não encontrada.");
+                            return;
+                        }
+
+                        consultaExistente.Cancelada = true;
+                        await _consultaAgendadaRepository.UpdateAsync(consultaExistente);
                         Console.WriteLine("Consulta cancelada com sucesso.");
                     }
                 }

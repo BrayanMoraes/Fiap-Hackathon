@@ -35,7 +35,19 @@ namespace HealthMed.AgendaConsumer
                     var agenda = JsonSerializer.Deserialize<Agenda>(message);
                     if (agenda != null)
                     {
-                        await _agendaRepository.UpdateAsync(agenda);
+                        var agendaExistente = await _agendaRepository.GetByIdAsync(agenda.Id);
+
+                        if (agendaExistente == null)
+                        {
+                            Console.WriteLine($"Agenda com ID {agenda.Id} não encontrada.");
+                            return;
+                        }
+
+                        agendaExistente.Data = agenda.Data;
+                        agendaExistente.ValorConsulta = agenda.ValorConsulta;
+                        agendaExistente.Horario = agenda.Horario;
+
+                        await _agendaRepository.UpdateAsync(agendaExistente);
                         Console.WriteLine("Agenda atualizada com sucesso.");
                     }
                 }

@@ -12,8 +12,8 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["HealthMed.API/HealthMed.API.csproj", "HealthMed.API/"]
-RUN dotnet restore "./HealthMed.API/HealthMed.API.csproj"
+COPY ["HealthMed.API.csproj", "./"]
+RUN dotnet restore "./HealthMed.API.csproj"
 COPY . .
 WORKDIR "/src/HealthMed.API"
 RUN dotnet build "./HealthMed.API.csproj" -c $BUILD_CONFIGURATION -o /app/build

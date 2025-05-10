@@ -7,7 +7,6 @@ namespace HealthMed.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Medico")]
     public class AgendaController : HealthMedBaseController
     {
         private readonly IAgendaService _service;
@@ -18,6 +17,7 @@ namespace HealthMed.API.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "Medico,Paciente")]
         public async Task<IActionResult> GetById(Guid id)
         {
             var result = await _service.GetByIdAsync(id);
@@ -25,6 +25,7 @@ namespace HealthMed.API.Controllers
         }
 
         [HttpGet("medico/{medicoId}")]
+        [Authorize(Roles = "Medico,Paciente")]
         public async Task<IActionResult> GetByMedicoId(Guid medicoId)
         {
             var result = await _service.GetByMedicoIdAsync(medicoId);
@@ -32,6 +33,7 @@ namespace HealthMed.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Medico")]
         public async Task<IActionResult> Add(GerenciarAgendaDTO agenda)
         {
             var result = await _service.AddAsync(agenda);
@@ -39,6 +41,7 @@ namespace HealthMed.API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Medico")]
         public async Task<IActionResult> Update(GerenciarAgendaDTO agenda)
         {
             var result = await _service.UpdateAsync(agenda);

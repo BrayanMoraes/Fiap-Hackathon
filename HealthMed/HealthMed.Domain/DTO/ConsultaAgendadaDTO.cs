@@ -1,16 +1,16 @@
-﻿namespace HealthMed.Domain.Entities
+﻿using HealthMed.Domain.Enum;
+
+namespace HealthMed.Domain.DTO
 {
-    public class ConsultaAgendada
+    public class ConsultaAgendadaDTO
     {
         public Guid Id { get; set; }
         public Guid IdPaciente { get; set; }
         public Guid IdMedico { get; set; }
         public Guid IdAgenda { get; set; }
         public bool? Aprovado { get; set; }
-        public bool? Cancelada { get; set; }
+        public bool Cancelada { get; set; }
         public string? MotivoCancelamento { get; set; }
-        public virtual Paciente Paciente { get; set; }
-        public virtual Medico Medico { get; set; }
-        public virtual Agenda Agenda { get; set; }
+        public Solicitante Solicitante { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using HealthMed.Domain.DTO;
 using HealthMed.Domain.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HealthMed.API.Controllers
@@ -26,6 +27,13 @@ namespace HealthMed.API.Controllers
         public async Task<IActionResult> Login([FromBody] MedicoLoginDTO loginRequest)
         {
             return TratarRetorno<MedicoLoginRetornoDTO?>(await _medicoService.Login(loginRequest));
+        }
+
+        [HttpGet("BuscarPorEspecialidade/{especialidade}")]
+        [Authorize(Roles = "Medico,Paciente")]
+        public async Task<IActionResult> BuscarPorEspecialidade(Guid especialidade)
+        {
+            return TratarRetorno<IEnumerable<Guid>>(await _medicoService.BuscarPorEspecialidade(especialidade));
         }
     }
 }

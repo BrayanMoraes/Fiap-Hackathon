@@ -1,3 +1,4 @@
+using HealthMed.Domain.DTO;
 using HealthMed.Domain.Entities;
 using HealthMed.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -39,20 +40,15 @@ namespace HealthMed.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(ConsultaAgendada consultaAgendada)
+        public async Task<IActionResult> Add(ConsultaAgendadaDTO consultaAgendada)
         {
             var result = await _service.AddAsync(consultaAgendada);
             return TratarRetorno(result);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, ConsultaAgendada consultaAgendada)
+        public async Task<IActionResult> Update(ConsultaAgendadaDTO consultaAgendada)
         {
-            if (id != consultaAgendada.Id)
-            {
-                return BadRequest();
-            }
-
             var result = await _service.UpdateAsync(consultaAgendada);
             return TratarRetorno(result);
         }

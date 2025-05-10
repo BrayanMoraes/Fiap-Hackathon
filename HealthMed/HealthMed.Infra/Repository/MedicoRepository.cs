@@ -24,5 +24,12 @@ namespace HealthMed.Infra.Repository
             await _context.Medicos.AddAsync(medico);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<Guid>> GetByEspecialidadeAsync(Guid especialidade)
+        {
+            return await _context.Medicos.Where(m => m.IdEspecialidade == especialidade)
+                .Select(m => m.Id)
+                .ToListAsync();
+        }
     }
 }

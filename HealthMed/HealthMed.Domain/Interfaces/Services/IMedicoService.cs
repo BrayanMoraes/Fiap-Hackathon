@@ -7,5 +7,6 @@ namespace HealthMed.Domain.Interfaces.Services
     {
         Task<OperationResult<Guid?>> CadastroMedico(MedicoCadastroDTO medicoCadastroDTO);
         Task<OperationResult<MedicoLoginRetornoDTO?>> Login(MedicoLoginDTO medicoLoginDTO);
+        Task<OperationResult<IEnumerable<Guid>>> BuscarPorEspecialidade(Guid especialidade);
     }
 }

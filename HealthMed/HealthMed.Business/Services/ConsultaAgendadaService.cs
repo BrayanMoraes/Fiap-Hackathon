@@ -1,3 +1,4 @@
+using HealthMed.Domain.DTO;
 using HealthMed.Domain.Entities;
 using HealthMed.Domain.Enum;
 using HealthMed.Domain.Interfaces.Repository;
@@ -46,10 +47,19 @@ namespace HealthMed.Business.Services
             }
         }
 
-        public async Task<OperationResult<object>> AddAsync(ConsultaAgendada consultaAgendada)
+        public async Task<OperationResult<object>> AddAsync(ConsultaAgendadaDTO consultaAgendada)
         {
             try
             {
+                if (consultaAgendada.Solicitante == Solicitante.Paciente && consultaAgendada.Aprovado != null)
+                {
+                    return new OperationResult<object>
+                    {
+                        Status = TypeReturnStatus.Error,
+                        Message = "Paciente não pode aprovar consulta!"
+                    };
+                }
+
                 var message = JsonSerializer.Serialize(consultaAgendada);
                 await PublishMessageAsync("consulta.add", message);
 
@@ -65,10 +75,19 @@ namespace HealthMed.Business.Services
             }
         }
 
-        public async Task<OperationResult<object>> UpdateAsync(ConsultaAgendada consultaAgendada)
+        public async Task<OperationResult<object>> UpdateAsync(ConsultaAgendadaDTO consultaAgendada)
         {
             try
             {
+                if(consultaAgendada.Solicitante == Solicitante.Paciente && consultaAgendada.Aprovado != null)
+                {
+                    return new OperationResult<object>
+                    {
+                        Status = TypeReturnStatus.Error,
+                        Message = "Paciente não pode aprovar consulta!"
+                    };
+                }
+
                 var message = JsonSerializer.Serialize(consultaAgendada);
                 await PublishMessageAsync("consulta.update", message);
 

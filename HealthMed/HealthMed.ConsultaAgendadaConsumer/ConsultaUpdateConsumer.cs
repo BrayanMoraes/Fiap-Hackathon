@@ -1,4 +1,5 @@
-﻿using HealthMed.Domain.Entities;
+﻿using HealthMed.Domain.DTO;
+using HealthMed.Domain.Entities;
 using HealthMed.Domain.Interfaces.Queue;
 using HealthMed.Domain.Interfaces.Repository;
 using RabbitMQ.Client;
@@ -32,10 +33,21 @@ namespace HealthMed.ConsultaAgendadaConsumer
 
                 try
                 {
-                    var consulta = JsonSerializer.Deserialize<ConsultaAgendada>(message);
+                    var consulta = JsonSerializer.Deserialize<ConsultaAgendadaDTO>(message);
                     if (consulta != null)
                     {
-                        await _consultaAgendadaRepository.UpdateAsync(consulta);
+                        var consultaExistente = await _consultaAgendadaRepository.GetByIdAsync(consulta.Id);
+
+                        if (consultaExistente == null)
+                        {
+                            Console.WriteLine($"Consulta com ID {consulta.Id} não encontrada.");
+                            return;
+                        }
+
+                        consultaExistente.Aprovado = consulta.Aprovado;
+                        consultaExistente.Cancelada = consulta.Cancelada;
+
+                        await _consultaAgendadaRepository.UpdateAsync(consultaExistente);
                         Console.WriteLine("Consulta atualizada com sucesso.");
                     }
                 }

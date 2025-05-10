@@ -129,6 +129,23 @@ namespace HealthMed.Business.Services
                 ResultObject = informacaoLogin
             };
         }
+
+        public async Task<OperationResult<IEnumerable<Guid>>> BuscarPorEspecialidade(Guid especialidade)
+        {
+            try
+            {
+                return new OperationResult<IEnumerable<Guid>>
+                {
+                    Message = "Busca realizada com sucesso",
+                    Status = TypeReturnStatus.Success,
+                    ResultObject = await _repository.GetByEspecialidadeAsync(especialidade)
+                };
+            }
+            catch (Exception ex)
+            {
+                return ServiceHelper.HandleException<IEnumerable<Guid>>(ex, "Erro ao buscar medico");
+            }
+        }
     }
 }
 

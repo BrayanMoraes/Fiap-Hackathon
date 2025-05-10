@@ -23,6 +23,8 @@ namespace HealthMed.IoC
             serviceCollection.AddScoped<IAgendaService, AgendaService>();
             serviceCollection.AddScoped<IMedicoService, MedicoService>();
             serviceCollection.AddScoped<IMedicoEspecialidadeService, MedicoEspecialidadeService>();
+            serviceCollection.AddScoped<IConsultaAgendadaService, ConsultaAgendadaService>();
+            serviceCollection.AddScoped<IConsultaAgendadaRepository, ConsultaAgendadaRepository>();
             serviceCollection.AddScoped<IPacienteRepository, PacienteRepository>();
             serviceCollection.AddScoped<IMedicoRepository, MedicoRepository>();
             serviceCollection.AddScoped<IMedicoEspecialidadeRepository, MedicoEspecialidadeRepository>();
@@ -58,7 +60,7 @@ namespace HealthMed.IoC
             {
                 var factory = new ConnectionFactory()
                 {
-                    HostName = "localhost", // Substitua pelo hostname do RabbitMQ
+                    HostName = "192.168.1.79", // Substitua pelo hostname do RabbitMQ
                     Port = 32002,            // Porta padrão do RabbitMQ
                     UserName = "admin",     // Substitua pelo usuário do RabbitMQ
                     Password = "fi@ph@ck@th0n"      // Substitua pela senha do RabbitMQ
