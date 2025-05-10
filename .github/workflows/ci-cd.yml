@@ -57,6 +57,6 @@ jobs:
       
       # Run tests
       - name: Run tests
-        run: dotnet test HealthMed/HealthMed.Tests/HealthMed.Tests.csproj --configuration Release --no-build --verbosity normal
+        run: dotnet test HealthMed/HealthMed.Tests/HealthMed.Tests.csproj --configuration Release --verbosity normal
 
       
