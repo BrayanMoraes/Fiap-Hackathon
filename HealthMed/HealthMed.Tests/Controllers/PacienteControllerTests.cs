@@ -122,7 +122,7 @@ namespace HealthMed.Tests.Controllers
                 .ReturnsAsync(new OperationResult<string>
                 {
                     Status = TypeReturnStatus.Conflict,
-                    Message = "Paciente com este CPF ou e-mail já está cadastrado.",
+                    Message = "Paciente com este CPF ou e-mail ja esta cadastrado.",
                     ResultObject = null
                 });
 
@@ -132,7 +132,7 @@ namespace HealthMed.Tests.Controllers
             // Assert
             var conflictResult = Assert.IsType<BadRequestObjectResult>(result);
             var response = Assert.IsType<OperationResult<string>>(conflictResult.Value);
-            Assert.Equal("Paciente com este CPF ou e-mail já está cadastrado.", response.Message);
+            Assert.Equal("Paciente com este CPF ou e-mail ja esta cadastrado.", response.Message);
         }
     }
 }

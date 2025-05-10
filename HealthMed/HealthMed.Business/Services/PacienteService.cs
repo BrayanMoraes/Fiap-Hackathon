@@ -61,7 +61,7 @@ namespace HealthMed.Business.Services
                     return new OperationResult<string>
                     {
                         Status = TypeReturnStatus.Conflict,
-                        Message = "Paciente com este CPF ou e-mail já está cadastrado."
+                        Message = "Paciente com este CPF ou e-mail ja esta cadastrado."
                     };
                 }
 

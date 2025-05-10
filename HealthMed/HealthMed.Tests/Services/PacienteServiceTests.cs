@@ -83,7 +83,7 @@ namespace HealthMed.Tests.Services
             // Assert
             Assert.NotNull(result);
             Assert.Equal(TypeReturnStatus.Conflict, result.Status);
-            Assert.Equal("Paciente com este CPF ou e-mail já está cadastrado.", result.Message);
+            Assert.Equal("Paciente com este CPF ou e-mail ja esta cadastrado.", result.Message);
         }
     }
 }
