@@ -135,7 +135,7 @@ namespace HealthMed.Tests.Controllers
                 .ReturnsAsync(new OperationResult<MedicoLoginRetornoDTO?>
                 {
                     Status = TypeReturnStatus.Error,
-                    Message = "CRM ou Senha inválidos.",
+                    Message = "CRM ou Senha invalidos.",
                     ResultObject = null
                 });
 
@@ -146,7 +146,7 @@ namespace HealthMed.Tests.Controllers
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
             var response = Assert.IsType<OperationResult<MedicoLoginRetornoDTO?>>(badRequestResult.Value);
             Assert.Equal(TypeReturnStatus.Error, response.Status);
-            Assert.Equal("CRM ou Senha inválidos.", response.Message);
+            Assert.Equal("CRM ou Senha invalidos.", response.Message);
         }
     }
 }

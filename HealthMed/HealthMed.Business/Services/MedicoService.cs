@@ -68,7 +68,7 @@ namespace HealthMed.Business.Services
 
                 if (medico == null || !BCrypt.Net.BCrypt.Verify(medicoLoginDTO.Senha, medico.Senha))
                 {
-                    return PreparaRetornoLogin("CRM ou Senha inválidos.", TypeReturnStatus.Error);
+                    return PreparaRetornoLogin("CRM ou Senha invalidos.", TypeReturnStatus.Error);
                 }
 
                 string tokenString = GerarJwtToken(medico);

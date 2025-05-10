@@ -60,7 +60,7 @@ namespace HealthMed.Tests.Services
             // Assert
             Assert.NotNull(result);
             Assert.Equal(TypeReturnStatus.Error, result.Status);
-            Assert.Equal("CRM ou Senha inválidos.", result.Message);
+            Assert.Equal("CRM ou Senha invalidos.", result.Message);
         }
     }
 }
