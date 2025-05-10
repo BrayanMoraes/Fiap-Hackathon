@@ -1,0 +1,129 @@
+# Deployment para HealthMed.AgendaConsumer
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: healthmed-agenda-consumer
+  labels:
+    app: healthmed-agenda-consumer
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: healthmed-agenda-consumer
+  template:
+    metadata:
+      labels:
+        app: healthmed-agenda-consumer
+    spec:
+      containers:
+      - name: healthmed-agenda-consumer
+        image: healthmed/agenda-consumer:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+        env:
+        - name: RABBITMQ_HOST
+          value: "192.168.1.79"
+        - name: RABBITMQ_PORT
+          value: "32002"
+        - name: RABBITMQ_USER
+          value: "admin"
+        - name: RABBITMQ_PASSWORD
+          value: "fi@ph@ck@th0n"
+
+---
+
+# Deployment para HealthMed.ConsultaAgendadaConsumer
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: healthmed-consulta-agendada-consumer
+  labels:
+    app: healthmed-consulta-agendada-consumer
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: healthmed-consulta-agendada-consumer
+  template:
+    metadata:
+      labels:
+        app: healthmed-consulta-agendada-consumer
+    spec:
+      containers:
+      - name: healthmed-consulta-agendada-consumer
+        image: healthmed/consulta-agendada-consumer:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+        env:
+        - name: RABBITMQ_HOST
+          value: "192.168.1.79" 
+        - name: RABBITMQ_PORT
+          value: "32002" 
+        - name: RABBITMQ_USER
+          value: "admin" 
+        - name: RABBITMQ_PASSWORD
+          value: "fi@ph@ck@th0n"
+
+---
+
+# Deployment para HealthMed.API
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: healthmed-api
+  labels:
+    app: healthmed-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: healthmed-api
+  template:
+    metadata:
+      labels:
+        app: healthmed-api
+    spec:
+      containers:
+      - name: healthmed-api
+        image: healthmed/api:latest
+        imagePullPolicy: Never
+        ports:
+         - containerPort: 8080
+           protocol: TCP
+        env:
+        - name: DATABASE_HOST
+          value: "192.168.1.79" 
+        - name: DATABASE_PORT
+          value: "30033"
+        - name: RABBITMQ_HOST
+          value: "192.168.1.79"
+        - name: RABBITMQ_PORT
+          value: "32002"
+        - name: RABBITMQ_USER
+          value: "admin"
+        - name: RABBITMQ_PASSWORD
+          value: "fi@ph@ck@th0n"
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Development
+        - name: ASPNETCORE_HTTP_PORTS
+          value: "8080"
+
+---
+
+# Service para HealthMed.API com NodePort
+apiVersion: v1
+kind: Service
+metadata:
+  name: healthmed-api-service
+  labels:
+    app: healthmed-api
+spec:
+  type: NodePort
+  selector:
+    app: healthmed-api
+  ports:
+    - name: "8080"
+      port: 8080
+      targetPort: 8080

@@ -1,0 +1,24 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/HealthMed/.vs/HealthMed
+/HealthMed/HealthMed.API/obj
+/HealthMed/HealthMed.Domain/obj
+/HealthMed/.vs/ProjectEvaluation
+/HealthMed/HealthMed.Infra/obj
+/HealthMed/HealthMed.Domain/bin/Debug/net8.0
+/HealthMed/HealthMed.Infra/bin/Debug/net8.0
+/HealthMed/HealthMed.Business/obj
+/HealthMed/HealthMed.IoC/obj/Debug/net8.0
+/HealthMed/HealthMed.IoC/obj
+/HealthMed/HealthMed.API/bin/Debug/net8.0
+/HealthMed/HealthMed.Business/bin/Debug/net8.0
+/HealthMed/HealthMed.IoC/bin/Debug/net8.0
+/HealthMed/HealthMed.AgendaConsumer/bin/Debug/net8.0
+/HealthMed/HealthMed.AgendaConsumer/obj
+/HealthMed/HealthMed.ConsultaAgendadaConsumer/bin/Debug/net8.0
+/HealthMed/HealthMed.ConsultaAgendadaConsumer/obj
+/HealthMed/HealthMed.Tests/obj
+/HealthMed/HealthMed.Tests/bin/Debug/net8.0

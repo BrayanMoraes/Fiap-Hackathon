@@ -1,0 +1,19 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "HealthMed.API\\HealthMed.API.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "HealthMed.AgendaConsumer\\HealthMed.AgendaConsumer.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "HealthMed.ConsultaAgendadaConsumer\\HealthMed.ConsultaAgendadaConsumer.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
