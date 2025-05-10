@@ -1,5 +1,4 @@
 using HealthMed.Domain.DTO;
-using HealthMed.Domain.Entities;
 using HealthMed.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +7,7 @@ namespace HealthMed.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Paciente")]
+    [Authorize(Roles = "Paciente, Medico")]
     public class ConsultaAgendadaController : HealthMedBaseController
     {
         private readonly IConsultaAgendadaService _service;
@@ -46,7 +45,7 @@ namespace HealthMed.API.Controllers
             return TratarRetorno(result);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         public async Task<IActionResult> Update(ConsultaAgendadaDTO consultaAgendada)
         {
             var result = await _service.UpdateAsync(consultaAgendada);

@@ -40,7 +40,7 @@ namespace HealthMed.API.Controllers
             return TratarRetorno(result);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         [Authorize(Roles = "Medico")]
         public async Task<IActionResult> Update(GerenciarAgendaDTO agenda)
         {
